@@ -1,5 +1,5 @@
 Set the path to the qpOASES library using the environment variable, which should be the directory containing
-`libqoases.a`
+`libqpOASES.a`
 
 ```
 export QPOASES_LIB_PATH = DIR_TO_QPOASES_LIB

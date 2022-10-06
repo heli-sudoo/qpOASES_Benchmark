@@ -1,7 +1,7 @@
 Project (TimeBenchmark)
 
 set(CXX_FLAG)
-include_directories("../../qpOASES/include")
+include_directories($ENV{QPOASES_INCLUDE})
 
 find_library(QPOASES_LIB 
              NAMES  libqpOASES.a 

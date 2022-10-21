@@ -33,6 +33,7 @@ void benchmark_qp_seq()
     SQProblem qp_seq(data.n_var, data.n_con);
 
     Options options;
+    options.setToMPC();
     options.printLevel = PL_NONE;
 	qp_seq.setOptions( options );
 

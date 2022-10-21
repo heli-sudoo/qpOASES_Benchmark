@@ -15,9 +15,18 @@ int main()
 
 void benchmark_qp_seq()
 {
-    std::string mpc_log_fname = "/home/heli/Research/Tutorials/qpOASES/practice/time_benchmark/MPC_LOG";
+    std::string mpc_log_fname = "/home/heli/Research/Tutorials/qpOASES/practice/time_benchmark/MC_QP_LOG";
     std::fstream fstrm(mpc_log_fname);
+    if (!fstrm.is_open())
+    {
+        printf("Failed to open test file \n");
+        return;
+    }
+    
     QPData data;
+
+    printf("=====================\n");
+    printf("read the first qp data \n");
 
     read_one_data_from_file(fstrm, data);
 
@@ -35,6 +44,9 @@ void benchmark_qp_seq()
                 data.ub.data(),
                 data.lbA.data(),
                 data.ubA.data(), data.nWSR, &data.cpu_time);
+    
+    printf("n_WSR = %d, cputime = %f seconds\n", data.nWSR, data.cpu_time);
+    printf("=====================\n");
 
     while (!fstrm.eof())
     {

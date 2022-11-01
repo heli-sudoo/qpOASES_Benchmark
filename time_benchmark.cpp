@@ -2,7 +2,9 @@
 #include <iostream>
 #include <stdio.h>
 #include <sstream>
-
+#include <numeric>
+#include <cmath>
+#include <algorithm>
 int main()
 
 {
@@ -15,7 +17,7 @@ int main()
 
 void benchmark_qp_seq()
 {
-    std::string mpc_log_fname = "/home/heli/Research/Tutorials/qpOASES/practice/time_benchmark/MC_QP_LOG";
+    std::string mpc_log_fname = "../MC_QP_LOG";
     std::fstream fstrm(mpc_log_fname);
     if (!fstrm.is_open())
     {
@@ -23,53 +25,38 @@ void benchmark_qp_seq()
         return;
     }
     
-    QPData data;
-
-    printf("=====================\n");
-    printf("read the first qp data \n");
-
-    read_one_data_from_file(fstrm, data);
-
-    SQProblem qp_seq(data.n_var, data.n_con);
-
     Options options;
     options.setToMPC();
     options.printLevel = PL_NONE;
-	qp_seq.setOptions( options );
 
-    // solve the first QP 
-    qp_seq.init(data.H.data(),
-                data.g.data(),
-                data.A.data(),
-                data.lb.data(),
-                data.ub.data(),
-                data.lbA.data(),
-                data.ubA.data(), data.nWSR, &data.cpu_time);
-    
-    printf("n_WSR = %d, cputime = %f seconds\n", data.nWSR, data.cpu_time);
-    printf("=====================\n");
+    std::vector<real_t> cpu_times;
 
     while (!fstrm.eof())
     {
+        QPData data;    
         printf("\n\n");
         printf("=====================\n");
-        // Solve the following QPs
         printf("read one qp data \n");
         read_one_data_from_file(fstrm, data);
+
+        QProblem qp(data.n_var, data.n_con);
+        qp.setOptions( options );
 
         printf("solving QP \n");
         if (data.hotstart)
         {
-            qp_seq.hotstart(data.H.data(),
-                            data.g.data(),
-                            data.A.data(),
-                            data.lb.data(),
-                            data.ub.data(),
-                            data.lbA.data(),
-                            data.ubA.data(), data.nWSR, &data.cpu_time);
+            // qp.hotstart(data.H.data(),
+            //                 data.g.data(),
+            //                 data.A.data(),
+            //                 data.lb.data(),
+            //                 data.ub.data(),
+            //                 data.lbA.data(),
+            //                 data.ubA.data(), data.nWSR, &data.cpu_time);
+            printf("Hotstart not available \n");
+            break;
         }else
         {
-             qp_seq.init(data.H.data(),
+             qp.init(data.H.data(),
                 data.g.data(),
                 data.A.data(),
                 data.lb.data(),
@@ -79,7 +66,11 @@ void benchmark_qp_seq()
         }
         printf("n_WSR = %d, cputime = %f seconds\n", data.nWSR, data.cpu_time);
         printf("=====================\n");
+        cpu_times.push_back(data.cpu_time);
     }
+
+    printf("Mean = %f, Std = %f, Min = %f, Max = %f \n", mean(cpu_times), std_variation(cpu_times), 
+            *std::min_element(cpu_times.begin(), cpu_times.end()), *std::max_element(cpu_times.begin(), cpu_times.end()));
 }
 
 void read_one_data_from_file(std::fstream& fstrm, QPData&data)
@@ -250,3 +241,37 @@ void read_one_data_from_file(std::fstream& fstrm, QPData&data)
     }
 }
 
+real_t sum(const std::vector<real_t> &v)
+{
+    // return std::accumulate(v.begin(), v.end(), 0);
+    real_t s(0);
+    for (auto a : v)
+    {
+        s = s + a;
+    }
+    return s;
+}
+real_t mean(const std::vector<real_t>& v)
+{
+    return sum(v)/v.size();
+}
+real_t sq_sum(const std::vector<real_t>&v)
+{
+    real_t s(0);
+    for (auto a : v)
+    {
+        s = s + a*a;
+    }
+    return s;
+    
+}
+real_t std_variation(const std::vector<real_t>& v)
+{
+    real_t m = mean(v);
+    real_t s(0);
+    for (auto a:v)
+    {
+        s = s + (a-m)*(a-m);
+    }
+    return sqrt(s/v.size());
+}

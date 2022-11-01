@@ -27,4 +27,8 @@ struct QPData
 
 void read_one_data_from_file(std::fstream&, QPData&);
 void benchmark_qp_seq();
+real_t sum(const std::vector<real_t> &);
+real_t mean(const std::vector<real_t>&);
+real_t sq_sum(const std::vector<real_t>&);
+real_t std_variation(const std::vector<real_t>&);
 #endif

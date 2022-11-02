@@ -23,3 +23,9 @@ Run
 ```
 ./time_benchmark
 ```
+
+| Platform | Mean (ms) | Min (ms) | Max (ms) | Std (ms) |
+| ----------- | ----------- | --- | -------|---|
+| ThinkPat X1 2020 | 0.043 | 0.041 |0.070 |0.002 
+| Lab Desktop |
+| MC UpBoard |  | 

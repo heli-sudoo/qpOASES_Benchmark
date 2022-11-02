@@ -27,5 +27,5 @@ Run
 | Platform | Mean (ms) | Min (ms) | Max (ms) | Std (ms) |
 | ----------- | ----------- | --- | -------|---|
 | ThinkPat X1 2020 | 0.043 | 0.041 |0.070 |0.002 
-| Lab Desktop |
+| Lab Desktop | 0.072 | 0.066 | 0.1 | 0.007
 | MC UpBoard |  | 

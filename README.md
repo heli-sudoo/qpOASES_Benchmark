@@ -31,3 +31,9 @@ Test Data: MC Trot In Place, n_var = 60, n_con = 100
 | Lab Desktop | 0.072 | 0.066 | 0.1 | 0.007
 | MC UpBoard |  0.606| 0.644 | 0.723 | 0.045 
 
+Test Data: Pat's Data, n_var = 120, n_con = 160
+| Platform | Mean (ms) | Min (ms) | Max (ms) | Std (ms) |
+| ----------- | ----------- | --- | -------|---|
+| ThinkPat X1 2020 | 1.47 | 0.25 |9.06 |1.001
+| Lab Desktop | 1.92 | 0.32 | 12.39 | 1.30
+| MC UpBoard |  |  | |  

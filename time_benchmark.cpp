@@ -26,6 +26,7 @@ void benchmark_qp_seq()
     options.setToMPC();
     options.printLevel = PL_NONE;
     std::vector<real_t> cpu_times;
+    std::vector<real_t> nWSRs;
 
     /* Read the first QP Data and Set up SQP problem*/
     QPData data;
@@ -48,6 +49,7 @@ void benchmark_qp_seq()
     printf("n_WSR = %d, cputime = %f seconds\n", data.nWSR, data.cpu_time);
     printf("=====================\n");
     cpu_times.push_back(data.cpu_time);
+    nWSRs.push_back(data.nWSR);
 
     while (!fstrm.eof())
     {
@@ -80,10 +82,13 @@ void benchmark_qp_seq()
         printf("n_WSR = %d, cputime = %f seconds\n", data.nWSR, data.cpu_time);
         printf("=====================\n");
         cpu_times.push_back(data.cpu_time);
+        nWSRs.push_back(data.nWSR);
     }
 
-    printf("Mean = %f, Std = %f, Min = %f, Max = %f \n", mean(cpu_times), std_variation(cpu_times),
-           *std::min_element(cpu_times.begin(), cpu_times.end()), *std::max_element(cpu_times.begin(), cpu_times.end()));
+    printf("Mean = %f, Std = %f, Min = %f, Max = %f, Mean_nWSR = %f \n", mean(cpu_times), std_variation(cpu_times),
+           *std::min_element(cpu_times.begin(), cpu_times.end()), 
+           *std::max_element(cpu_times.begin(), cpu_times.end()),
+           mean(nWSRs));
 }
 
 void read_one_data_from_file(std::fstream &fstrm, QPData &data)

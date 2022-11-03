@@ -1,6 +1,6 @@
 Project (TimeBenchmark)
 
-set(CMAKE_CXX_FLAG "-std=c++11")
+set(CMAKE_CXX_FLAGS "-std=c++11")
 include_directories($ENV{QPOASES_INCLUDE})
 
 find_library(QPOASES_LIB 

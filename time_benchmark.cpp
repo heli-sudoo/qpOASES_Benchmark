@@ -14,7 +14,7 @@ int main()
 
 void benchmark_qp_seq()
 {
-    std::string mpc_log_fname = "../MC_QP_LOG";
+    std::string mpc_log_fname = "../MPC_LOG";
     std::fstream fstrm(mpc_log_fname);
     if (!fstrm.is_open())
     {
@@ -85,10 +85,14 @@ void benchmark_qp_seq()
         nWSRs.push_back(data.nWSR);
     }
 
-    printf("Mean = %f, Std = %f, Min = %f, Max = %f, Mean_nWSR = %f \n", mean(cpu_times), std_variation(cpu_times),
+    printf("Mean = %f, Std = %f, Min = %f, Max = %f, \n", mean(cpu_times), std_variation(cpu_times),
            *std::min_element(cpu_times.begin(), cpu_times.end()), 
-           *std::max_element(cpu_times.begin(), cpu_times.end()),
-           mean(nWSRs));
+           *std::max_element(cpu_times.begin(), cpu_times.end()));
+    
+    printf("Mean = %f, Std = %f, Min = %f, Max = %f, \n", mean(nWSRs), std_variation(nWSRs),
+           *std::min_element(nWSRs.begin(), nWSRs.end()), 
+           *std::max_element(nWSRs.begin(), nWSRs.end()));
+
 }
 
 void read_one_data_from_file(std::fstream &fstrm, QPData &data)
